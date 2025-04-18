@@ -1,6 +1,7 @@
 pub type Cell {
   Dead
   Alive
+  None
 }
 
 pub type GameBoard {
