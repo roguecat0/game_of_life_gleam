@@ -1,12 +1,14 @@
 import gleam/io
 
-type Cell {
-  Dead,
+pub type Cell {
+  Dead
   Alive
 }
 
-pub struct Game_Board{
-  width: Int
-  height: Int
-  board: List(List(Cell))
+pub type Game_Board{
+  Game_Board(
+    width: Int,
+    height: Int,
+    board: List(List(Cell))
+  )
 }
