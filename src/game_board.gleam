@@ -5,8 +5,8 @@ pub type Cell {
   Alive
 }
 
-pub type Game_Board{
-  Game_Board(
+pub type GameBoard{
+  GameBoard(
     width: Int,
     height: Int,
     board: List(List(Cell))
