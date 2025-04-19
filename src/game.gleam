@@ -30,7 +30,7 @@ pub fn init_game_board(width: Int, height: Int) -> GameBoard {
 
 pub fn add_paddign(gb: GameBoard) -> GameBoard {
   let padding_x =
-    range(0, gb.height + 2)
+    range(0, gb.height + 1)
     |> map(fn(_) { None })
   let board2 =
     map(gb.board, fn(c) { list.prepend(c, None) |> list.append([None]) })
@@ -60,7 +60,6 @@ pub fn list_to_3x3s(
   |> map(fn(list_3xn) {
     list.transpose(list_3xn)
     |> list.window(3)
-    |> list.transpose
   })
 }
 
@@ -75,18 +74,25 @@ fn get_center_list3(l: List(value)) -> value {
   }
 }
 
+fn print_2d_list(l2: List(List(value))) {
+  list.each(l2, fn(l) {
+    echo l
+    io.println("")
+  })
+}
+
 pub fn main() {
   echo range(0, 1)
   let gb = init_game_board(1, 1)
   echo gb
   let gb2 = add_paddign(gb)
-  echo gb2
+  echo print_2d_list(gb2.board)
   let gb3 = remove_padding(gb2)
-  echo gb3
+  echo print_2d_list(gb3.board)
   let gb = init_game_board(2, 2)
-  echo gb
+  echo print_2d_list(gb.board)
   let gb2 = add_paddign(gb)
-  echo gb2
+  echo print_2d_list(gb2.board)
   let gb3 = list_to_3x3s(gb2.board)
   echo gb3
 }
