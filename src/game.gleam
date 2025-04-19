@@ -1,10 +1,55 @@
 import game_board.{type Cell, type GameBoard, Alive, Dead, GameBoard, None}
+import gleam/bool
 import gleam/io
 import gleam/list.{map, range}
 import gleam/result
+import ui
 
-pub fn update() {
-  io.println("update")
+pub fn update(gb: GameBoard) {
+  new_board(gb)
+  |> ui.update()
+}
+
+pub fn new_board(gb: GameBoard) -> GameBoard {
+  let new_board =
+    add_paddign(gb).board
+    |> list_to_3x3s()
+    |> map(fn(list) { map(list, fn(s3b3) { new_state(s3b3) }) })
+
+  GameBoard(..gb, board: new_board)
+}
+
+pub fn new_state(block: List(List(Cell))) {
+  let current_state =
+    list.flatten(block)
+    |> list.drop(4)
+    |> list.first
+    |> result.unwrap(Dead)
+
+  let neighbours =
+    list.flatten(block)
+    |> list.fold(0, fn(count, elem) {
+      count
+      + case elem {
+        Alive -> 1
+        _ -> 0
+      }
+    })
+    |> fn(n) {
+      n
+      - case current_state {
+        Alive -> 1
+        _ -> 0
+      }
+    }
+
+  case neighbours {
+    3 -> Alive
+    2 -> current_state
+    n if n <= 1 -> Dead
+    n if n >= 4 -> Dead
+    _ -> Dead
+  }
 }
 
 pub fn print_cel(hello: Cell) {

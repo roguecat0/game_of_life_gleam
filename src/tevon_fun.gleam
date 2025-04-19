@@ -1,4 +1,4 @@
-import game_board.{type Cell, type GameBoard, Alive, Dead, None}
+import game_board.{type Cell, type GameBoard, Alive, Dead}
 import gleam/list
 import gleam/result
 
