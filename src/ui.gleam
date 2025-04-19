@@ -27,4 +27,6 @@ pub fn test_print() {
   io.print("test\n")
 
   io.print("test2\n")
+
+  echo list.split([1, 2, 3], 2)
 }
