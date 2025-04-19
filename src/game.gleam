@@ -56,10 +56,15 @@ pub fn remove_first_and_last(l: List(value)) -> List(value) {
 pub fn list_to_3x3s(
   list_nxn: List(List(value)),
 ) -> List(List(List(List(value)))) {
-  todo
+  list.window(list_nxn, 3)
+  |> map(fn(list_3xn) {
+    list.transpose(list_3xn)
+    |> list.window(3)
+    |> list.transpose
+  })
 }
 
-fn get_center_square(tbt: List(List(Cell))) -> Cell {
+fn get_center_square(tbt: List(List(value))) -> value {
   get_center_list3(tbt) |> get_center_list3
 }
 
@@ -77,5 +82,11 @@ pub fn main() {
   let gb2 = add_paddign(gb)
   echo gb2
   let gb3 = remove_padding(gb2)
+  echo gb3
+  let gb = init_game_board(2, 2)
+  echo gb
+  let gb2 = add_paddign(gb)
+  echo gb2
+  let gb3 = list_to_3x3s(gb2.board)
   echo gb3
 }
