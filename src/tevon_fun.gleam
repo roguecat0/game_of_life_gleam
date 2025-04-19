@@ -4,12 +4,14 @@ import gleam/result
 
 pub fn new_state(block: List(List(Cell))) {
   let current_state =
-    list.drop(list.flatten(block), 4)
+    list.flatten(block)
+    |> list.drop(4)
     |> list.first
-    |> fn(res) { result.unwrap(res, Dead) }
+    |> result.unwrap(Dead)
 
   let neighbours =
-    list.fold(list.flatten(block), 0, fn(count, elem) {
+    list.flatten(block)
+    |> list.fold(0, fn(count, elem) {
       count
       + case elem {
         Alive -> 1
