@@ -32,3 +32,7 @@ pub fn new_state(block: List(List(Cell))) {
     _ -> Dead
   }
 }
+
+pub fn list_of_blocks(gb: GameBoard) {
+  list.fold(gb.board, [], fn(agg, x) { list.append(agg, list.window(x, 3)) })
+}
