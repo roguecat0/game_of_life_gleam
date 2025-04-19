@@ -1,6 +1,7 @@
 import game_board.{type Cell, type GameBoard, Alive, Dead, GameBoard, None}
 import gleam/io
 import gleam/list.{map, range}
+import gleam/result
 
 pub fn update() {
   io.println("update")
@@ -27,7 +28,7 @@ pub fn init_game_board(width: Int, height: Int) -> GameBoard {
   )
 }
 
-pub fn add_paddign(gb: GameBoard) -> game_board.GameBoard {
+pub fn add_paddign(gb: GameBoard) -> GameBoard {
   let padding_x =
     range(0, gb.height + 2)
     |> map(fn(_) { None })
@@ -39,10 +40,42 @@ pub fn add_paddign(gb: GameBoard) -> game_board.GameBoard {
   // append(l1, l2) -> l3
 }
 
+pub fn remove_padding(gb: GameBoard) -> GameBoard {
+  let board =
+    remove_first_and_last(gb.board)
+    |> map(fn(row) { remove_first_and_last(row) })
+  GameBoard(..gb, board: board)
+}
+
+pub fn remove_first_and_last(l: List(value)) -> List(value) {
+  list.drop(l, 1)
+  |> list.reverse
+  |> list.drop(1)
+}
+
+pub fn list_to_3x3s(
+  list_nxn: List(List(value)),
+) -> List(List(List(List(value)))) {
+  todo
+}
+
+fn get_center_square(tbt: List(List(Cell))) -> Cell {
+  get_center_list3(tbt) |> get_center_list3
+}
+
+fn get_center_list3(l: List(value)) -> value {
+  case l {
+    [_, val, _] -> val
+    _ -> panic as "not a 3x3"
+  }
+}
+
 pub fn main() {
   echo range(0, 1)
   let gb = init_game_board(1, 1)
   echo gb
   let gb2 = add_paddign(gb)
   echo gb2
+  let gb3 = remove_padding(gb2)
+  echo gb3
 }
